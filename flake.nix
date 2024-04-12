@@ -81,8 +81,9 @@
           SHIPMENT_DIR="$out/share/"${pkgs.lib.escapeShellArg finalAttrs.pname}
           mkdir -p "$out/bin" "$SHIPMENT_DIR"
           cp -r build/erlang-shipment/* "$SHIPMENT_DIR/"
-          makeWrapper "$SHIPMENT_DIR/entrypoint.sh" \
+          makeWrapper ${pkgs.lib.escapeShellArg pkgs.stdenvNoCC.shell} \
             "$out/bin/"${pkgs.lib.escapeShellArg finalAttrs.pname} \
+            --add-flags "$SHIPMENT_DIR/entrypoint.sh" \
             --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.erlang_26]}
 
           runHook postInstall
