@@ -84,7 +84,7 @@
           makeWrapper ${pkgs.lib.escapeShellArg pkgs.stdenvNoCC.shell} \
             "$out/bin/"${pkgs.lib.escapeShellArg finalAttrs.pname} \
             --add-flags "$SHIPMENT_DIR/entrypoint.sh" \
-            --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.erlang_26]}
+            --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.coreutils pkgs.erlang_26]}
 
           runHook postInstall
         '';
