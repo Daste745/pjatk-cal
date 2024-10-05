@@ -1,0 +1,8 @@
+build/
+.git/
+.mise.toml
+*.dump
+flake.lock
+flake.nix
+LICENSE
+README.md
