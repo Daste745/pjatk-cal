@@ -4,3 +4,4 @@
 /build
 erl_crash.dump
 calendar.ics
+*.env
