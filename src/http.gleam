@@ -1,3 +1,6 @@
+import gleam/option.{Some, None}
+import gleam/string
+import gleam/http
 import gleam/bytes_builder
 import gleam/erlang/process
 import gleam/erlang/os
@@ -34,7 +37,7 @@ pub fn main() {
 
   let assert Ok(_) =
     mist.new(fn(req) {
-      case request.path_segments(req) {
+      let res = case request.path_segments(req) {
         ["calendar.ics"] ->
           case fetch_ics() {
             Ok(ics) ->
@@ -49,6 +52,24 @@ pub fn main() {
           response.new(404)
           |> response.set_body(mist.Bytes(bytes_builder.new()))
       }
+
+      // HTTP GET /some.thing?query=param 200
+      io.println(
+        "HTTP "
+        |> string.append(req.method |> http.method_to_string |> string.uppercase)
+        |> string.append(" ")
+        |> string.append(req.path)
+        |> string.append(
+          case req.query {
+            Some(query) -> "?" |> string.append(query)
+            None -> ""
+          }
+        )
+        |> string.append(" ")
+        |> string.append(res.status |> int.to_string)
+      )
+
+      res
     })
     |> mist.port(port)
     |> mist.start_http
