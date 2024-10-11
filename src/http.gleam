@@ -40,29 +40,11 @@ pub fn main() {
             Ok(ics) ->
               response.new(200)
               |> response.set_body(mist.Bytes(bytes_builder.from_string(ics)))
-            Error(_) as err -> {
-              io.debug(err)
+            Error(_) -> {
               response.new(500)
               |> response.set_body(mist.Bytes(bytes_builder.new()))
             }
           }
-        // // TODO: Obviously very bad and very not safe
-        // ["set_creds", pass] if pass == set_creds_pass -> {
-        //   let _ =
-        //     {
-        //       use query <- result.try(request.get_query(req))
-        //       use username <- result.try(
-        //         list.find(query, fn(pair) { pair.0 == "username" }),
-        //       )
-        //       use password <- result.try(
-        //         list.find(query, fn(pair) { pair.0 == "password" }),
-        //       )
-        //       Ok(#(username.1, password.1))
-        //     }
-        //     |> result.map(fn(creds) { set_creds(creds.0, creds.1) })
-        //   response.new(200)
-        //   |> response.set_body(mist.Bytes(bytes_builder.new()))
-        // }
         _ ->
           response.new(404)
           |> response.set_body(mist.Bytes(bytes_builder.new()))
